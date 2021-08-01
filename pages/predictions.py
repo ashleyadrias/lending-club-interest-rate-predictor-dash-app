@@ -7,6 +7,7 @@ from joblib import load
 from app import app
 import pandas as pd
 import numpy as np
+import sklearn
 
 
 pipeline = load('notebooks/pipeline.joblib')
