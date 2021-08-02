@@ -26,17 +26,17 @@ sticky (string, optional): Stick the navbar to the top or the bottom of the view
 """
 
 navbar = dbc.NavbarSimple(
-    brand='Netflix Movie Recommender',
+    brand='Lending Club Interest Rate Predictions',
     brand_href='/', 
     children=[
         dbc.NavItem(dcc.Link('Predictions', href='/predictions', className='nav-link')), 
         # dbc.NavItem(dcc.Link('Process', href='/process', className='nav-link')), 
         dbc.NavItem(dcc.Link('About', href='/about', className='nav-link')),
-        dbc.NavItem(dcc.Link('Jupyter Notebook', href="https://github.com/ashleyadrias/netflix-recommender/blob/master/notebooks/netflix-recommender.ipynb", className='nav-link', target="_blank")),
+        dbc.NavItem(dcc.Link('Jupyter Notebook', href="https://github.com/ashleyadrias", className='nav-link', target="_blank")),
         # html.A(html.I('Notebook', href='/notebooks/netflix-recommender-notebook.html', className='nav-link', target="_blank"))
     ],
     sticky='top',
-    color='danger', 
+    color='primary', 
     light=False, 
     dark=True
 )
