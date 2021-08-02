@@ -4,6 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from joblib import load
+import pickle
 from app import app
 import pandas as pd
 import numpy as np
