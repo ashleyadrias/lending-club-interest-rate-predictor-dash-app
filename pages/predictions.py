@@ -4,102 +4,140 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from joblib import load
+import pickle
 from app import app
 import pandas as pd
-import pickle
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import numpy as np
+import sklearn
 
+
+pipeline = load('notebooks/pipeline.joblib')
 
 column1 = dbc.Col(
     [
         dcc.Markdown(
             """
         
-            #### Describe a movie you would like to watch: 
-            """,style={'width': '90%', 'display': 'inline-block'}, className='mb-4'
+            ## Predictions
+
+
+            """, className='mb-5'
         ),
-        dcc.Textarea(id='tokens',placeholder='Example: High School Vampire Drama',style={'height':100,'width': '90%', 'display': 'inline-block'},value='',className='mb-4'),
-        dcc.Markdown(
-            """
+        dcc.Markdown('#### Annual Income'),
+        dcc.Slider(
+            id='annual_inc',
+            min=20000, 
+            max=200000, 
+            step=5, 
+            value=220000, 
+            marks={n: str(n) for n in range(20000,220000,20000)},
+            className='mb-5', 
+        ),
+        dcc.Markdown('#### Credit Score'),
+        dcc.Slider(
+            id='fico_range_low',
+            min=650, 
+            max=850, 
+            step=5, 
+            value=900, 
+            marks={n: str(n) for n in range(650,900,50)},
+            className='mb-5',
+        ),
+        dcc.Markdown('#### Loan Amount'),
+        dcc.Slider(
+            id='loan_amnt',
+            min=5000, 
+            max=40000, 
+            step=5, 
+            value=45000, 
+            marks={n: str(n) for n in range(5000,45000,5000)},
+            className='mb-5',           
+        ),
+        dcc.Markdown('#### Loan Purpose'), 
+        dcc.Dropdown(
+            id='purpose',
+            options = [
+                {'label': 'debt_consolidation', 'value': 'debt_consolidation'}, 
+                {'label': 'credit_card', 'value': 'credit_card'}, 
+                {'label': 'home_improvement', 'value': 'home_improvement'}, 
+                {'label': 'other', 'value': 'other'}, 
+                {'label': 'car', 'value': 'car'}, 
+                {'label': 'major_purchase', 'value': 'major_purchase'}, 
+                {'label': 'educational', 'value': 'educational'}, 
+                {'label': 'vacation', 'value': 'vacation'}, 
+                {'label': 'moving', 'value': 'moving'},
+                {'label': 'medical', 'value': 'medical'},
+                {'label': 'house', 'value': 'house'},
+                {'label': 'wedding', 'value': 'wedding'}, 
+                {'label': 'small_business', 'value': 'small_business'}, 
+                {'label': 'renewable_energy', 'value': 'renewable_energy'}, 
+            ],
+            value = 'debt_consolidation',
+            className='mb-5',
+
+        ),
+        dcc.Markdown('#### term'), 
+        dcc.Dropdown(
+            id='term',
+            options = [
+                {'label': '36 months', 'value': '36 months'}, 
+                {'label': '60 months', 'value': '60 months'},
+            ],
+            value = '36 months',
+            className='mb-5',
+
+        ),
+        dcc.Markdown('#### Revolving Credit Debt(%)'),
+        dcc.Slider(
+            id='revol_util',
+            min=0, 
+            max=100, 
+            step=5, 
+            value=100, 
+            marks={n: str(n) for n in range(0,110,10)},
+            className='mb-5',
+
+        ),
+        dcc.Markdown('#### Debt-to-Income(%)'),
+        dcc.Slider(
+            id='dti',
+            min=0, 
+            max=100, 
+            step=5, 
+            value=100, 
+            marks={n: str(n) for n in range(0,110,10)},
+            className='mb-5',
+
+        ),
         
-            #### My Movie Recommendations: 
-            """,style={'width': '90%', 'display': 'inline-block'}, className='mb-4'
-        ),
-        html.Div(id='prediction-content', className='lead'),
-        html.Div(id='prediction-content2', className='lead'),
-        html.Div(id='prediction-content3', className='lead'),
-        html.Div(id='prediction-content4', className='lead'),
-        html.Div(id='prediction-content5', className='lead'),
-        html.Img(src='assets/hp.jpg',style={'width': '90%', 'display': 'inline-block'}, className='img-fluid'),
-        # dbc.FormText("Type something in the box above"),
-               
-        # for _ in ALLOWED_TYPES
-    ],style={'display': 'inline-block'}
-    # md=7,
+    ],
+    md=7,
 )
 
 column2 = dbc.Col(
-    [   #et tu auras une recette selon les ingrédients que tu as
-
-        # html.H2('Sandwich Recommender Marmiton', className='mb-5'), 
-        # html.Div(id='prediction-content', className='lead'),
-        # dcc.Link(id='url', href='', children="Lien De La Recette ICI!!!", target="_blank"),
-        
-        # dcc.Link(dbc.Button('Clique ICI pour voir la recette !!!', color='warning'), id='url', href='', target="_blank"),
-
-
-        # html.A(html.Img(src='assets/Netflix_people.jpeg', className='img-fluid'), href="http://www.google.com/search?q='prediction-content',
-        # html.Img(src='assets/Sandwich2.jpeg', className='img-fluid')
+    [
+        html.H2('Expected Interest', className='mb-5'), 
+        html.Div(id='prediction-content', className='lead'),
+        html.Img(src='assets/calculator_money.jpeg', className='img-fluid')
     ]
 )
 
-layout = dbc.Row([column1])
+layout = dbc.Row([column1, column2])
 
 
-@app.callback([
+@app.callback(
     Output('prediction-content', 'children'),
-    Output('prediction-content2', 'children'),
-    Output('prediction-content3', 'children'),
-    Output('prediction-content4', 'children'),
-    Output('prediction-content5', 'children'),
-    ], 
-    [Input('tokens','value')]
+    [Input('fico_range_low', 'value'), Input('term', 'value'),Input('dti', 'value'),Input('revol_util', 'value'),Input('annual_inc', 'value'),Input('loan_amnt', 'value'),Input('purpose', 'value')],
 )
+def predict(fico_range_low, term, dti, revol_util, annual_inc,loan_amnt,purpose):
+    df = pd.DataFrame(
+        columns=["fico_range_low", 'term', 'dti', 'revol_util', 'annual_inc', 'loan_amnt', 'purpose'], 
+        data=[[fico_range_low, term, dti, revol_util, annual_inc,loan_amnt,purpose]]
+    )
+    y_pred = pipeline.predict(df)[0]
+    return f'{y_pred:.2f}% Interest Rate'
+
+#Check data types: f"{fico_range_low} {type(fico_range_low)}, {term} {type(term)}, {dti}{type(dti)}, {revol_util}{type(revol_util)}, {annual_inc}{type(annual_inc)},{loan_amnt}{type(loan_amnt)},{purpose}{type(purpose)}"
 
 
-def predict(tokens):
-    df = pd.read_csv('./notebooks/netflix_titles.csv')
-    df = df[(df['type'] == 'Movie') & (df['country'] == 'United States')]
-    df = df.reset_index(drop=True)
 
-    tfidf = pickle.load(open("./notebooks/vect_01.pkl", "rb"))
-    nn = pickle.load(open("./notebooks/knn_01.pkl", "rb"))
-
-   # Transform
-    request = pd.Series(tokens)
-    request_sparse = tfidf.transform(request)
-
-    # Send to df
-    request_tfidf = pd.DataFrame(request_sparse.todense())
-
-    # Return a list of indexes
-    # top5 = nn.kneighbors([request_tfidf][0], n_neighbors=5)[1][0].tolist()
-    results = nn.kneighbors([request_tfidf][0], n_neighbors=5)
-    
-    # Send recomendations to DataFrame
-    # recommendations_df = df.iloc[top5]
-    
-    # string = str(recommendations_df['url1'])
-    indexes = results[1]
-
-    # result1 = "{}: {}\n".format(df['Strain'][indexes[0][0]],df['Description'][indexes[0][0]])
-    # result2 = "{}: {}".format(df['Strain'][indexes[0][1]],df['Description'][indexes[0][1]])
-
-    result1 = "{}".format(df['title'][indexes[0][0]])
-    result2 = "{}".format(df['title'][indexes[0][1]])
-    result3 = "{}".format(df['title'][indexes[0][2]])
-    result4 = "{}".format(df['title'][indexes[0][3]])
-    result5 = "{}".format(df['title'][indexes[0][4]])
-    # result2 = "{}".format(df['Strain'][indexes[0][1]])
-
-    return result1,result2,result3,result4,result5
