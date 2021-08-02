@@ -1,1 +1,1 @@
-web: gunicorn run:server
+web: gunicorn int_rate_app.wsgi
