@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 
 # Imports from this application
 from app import app, server
-from pages import index, predictions, insights, process, evaluation
+from pages import index, predictions, process, evaluation, about
 
 """
 https://dash-bootstrap-components.opensource.faculty.ai/l/components/navbar
@@ -26,16 +26,17 @@ sticky (string, optional): Stick the navbar to the top or the bottom of the view
 """
 
 navbar = dbc.NavbarSimple(
-    brand='Lending Club Interest Rate Predictions',
+    brand='Netflix Movie Recommender',
     brand_href='/', 
     children=[
         dbc.NavItem(dcc.Link('Predictions', href='/predictions', className='nav-link')), 
-        dbc.NavItem(dcc.Link('Insights', href='/insights', className='nav-link')), 
-        dbc.NavItem(dcc.Link('Process', href='/process', className='nav-link')),
-        # dbc.NavItem(dcc.Link('Evaluation', href='/evaluation', className='nav-link')), 
+        # dbc.NavItem(dcc.Link('Process', href='/process', className='nav-link')), 
+        dbc.NavItem(dcc.Link('About', href='/about', className='nav-link')),
+        dbc.NavItem(dcc.Link('Jupyter Notebook', href="https://github.com/ashleyadrias/netflix-recommender/blob/master/notebooks/netflix-recommender.ipynb", className='nav-link', target="_blank")),
+        # html.A(html.I('Notebook', href='/notebooks/netflix-recommender-notebook.html', className='nav-link', target="_blank"))
     ],
     sticky='top',
-    color='primary', 
+    color='danger', 
     light=False, 
     dark=True
 )
@@ -46,8 +47,9 @@ footer = dbc.Container(
             html.P(
                 [
                     html.Span('Ashley Adrias', className='mr-2'), 
-                    html.A(html.I(className='fas fa-envelope-square mr-1'), href='agadrias@gmail.com'), 
-                    html.A(html.I(className='fab fa-github-square mr-1'), href=''), 
+                    # html.A(html.I(className='fas fa-envelope-square mr-1'), href=''), 
+                    html.A(html.I(className='fab fa-github-square mr-1'), href='https://github.com/ashleyadrias', target="_blank"), 
+                    html.A(html.I(className='fab fa-linkedin-in mr-1'), href='https://www.linkedin.com/in/ashleyadrias/', target="_blank"),
                 ], 
                 className='lead'
             )
@@ -78,8 +80,8 @@ def display_page(pathname):
         return insights.layout
     elif pathname == '/process':
         return process.layout
-    elif pathname == '/evaluation':
-        return evaluation.layout
+    elif pathname == '/about':
+        return about.layout
     else:
         return dcc.Markdown('## Page not found')
 
