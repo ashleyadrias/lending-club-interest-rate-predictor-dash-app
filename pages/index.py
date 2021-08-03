@@ -39,7 +39,7 @@ column1 = dbc.Col(
             annual income, credit score, loan amount, loan purpose, Debt Utilization %, and Debt-to-Income %.
             """
         ),
-        dcc.Link(dbc.Button('Find movies', color='primary'), href='/predictions')
+        dcc.Link(dbc.Button('Predict Interest Rate', color='primary'), href='/predictions')
     ],
     md=4,
 )
