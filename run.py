@@ -36,7 +36,7 @@ navbar = dbc.NavbarSimple(
         # html.A(html.I('Notebook', href='/notebooks/netflix-recommender-notebook.html', className='nav-link', target="_blank"))
     ],
     sticky='top',
-    color='danger', 
+    color='primary', 
     light=False, 
     dark=True
 )
