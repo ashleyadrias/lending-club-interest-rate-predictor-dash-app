@@ -29,14 +29,17 @@ column1 = dbc.Col(
         dcc.Markdown(
             """
         
-            ### Get Netflix Movie Recommendations
+            ## Predict Interest Rate using Lending Club Loan Data
 
-            Do you love movies? So do I! Don't waste your time trying to find the perfect movie,
-            Let's get started by clicking the button below. Tell us about the kind of movie you want to see
-            and we will recommend 5 related movies!
+            Interested in knowing the interest rate on your loan type without running a credit check? 
+
+            Look no further!
+
+            Use this interest rate predictor app to see how much your interest rate will be based on your 
+            annual income, credit score, loan amount, loan purpose, Debt Utilization %, and Debt-to-Income %.
             """
         ),
-        dcc.Link(dbc.Button('Find movies', color='danger'), href='/predictions')
+        dcc.Link(dbc.Button('Find movies', color='primary'), href='/predictions')
     ],
     md=4,
 )
@@ -48,7 +51,7 @@ column1 = dbc.Col(
 column2 = dbc.Col(
     [
         # dcc.Graph(figure=fig),
-     html.Img(src='assets/n.jpg', className='img-fluid')   
+     html.Img(src='assets/visa_computer.jpeg', className='img-fluid')   
     ]
 )
 
