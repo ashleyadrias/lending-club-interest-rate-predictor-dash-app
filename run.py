@@ -32,7 +32,7 @@ navbar = dbc.NavbarSimple(
         dbc.NavItem(dcc.Link('Predictions', href='/predictions', className='nav-link')), 
         # dbc.NavItem(dcc.Link('Process', href='/process', className='nav-link')), 
         dbc.NavItem(dcc.Link('About', href='/about', className='nav-link')),
-        dbc.NavItem(dcc.Link('Jupyter Notebook', href="https://github.com/ashleyadrias", className='nav-link', target="_blank")),
+        dbc.NavItem(dcc.Link('Jupyter Notebook', href="https://github.com/ashleyadrias/lending-club-interest-rate-predictor-dash-app/blob/main/notebooks/Interest-Rate-Regression-Model-RFR.ipynb", className='nav-link', target="_blank")),
         # html.A(html.I('Notebook', href='/notebooks/netflix-recommender-notebook.html', className='nav-link', target="_blank"))
     ],
     sticky='top',
