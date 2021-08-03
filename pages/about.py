@@ -6,69 +6,16 @@ from dash.dependencies import Input, Output
 
 from app import app
 
-# column1 = dbc.Col(
-#     [   
-    
-#         (
-#             html.Img(src='assets/josh.jpeg', style= {'width': '100%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
-#         ),
-#         dcc.Markdown(
-#             """
-#             #### Josh Fowlkes        
-#             #### Data Scientist 
-#             """,
-#         className='mb-4'),
-#         # dcc.Markdown(
-#         #     """  
-#         #       #### Data Scientist - Yelp Feelers  
-#         #     """,
-#         # className='mb-4'),
-#         # (
-#         #     html.Img(src='assets/oscar.jpeg', style= {'width': '100%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
-#         # ),
-        
-#         # dcc.Markdown(
-#         #     """ 
-#         #     #### Data Scientist - Yelp Feelers        
-#         #     """,
-#         # className='mb-4'),
-#         # (
-#         #     html.Img(src='assets/maxime.jpg', style= {'width': '100%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
-#         # ),
-        
-             
-#     ],
-# )
-
-# column2 = dbc.Col(
-#     [   
-#        (
-#             html.Img(src='assets/oscar.jpeg', style= {'width': '100%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
-#         ),
-#         dcc.Markdown(
-#             """ 
-#             #### Oscar Calzada        
-#             #### Data Scientist 
-#             """,
-#         className='mb-4'),
-#     ]
-# )
-
-column3 = dbc.Col(
+column1 = dbc.Col(
     [  
         (
             html.Img(src='assets/profile_photo.png', style= {'width': '100%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
         ),
-        # dcc.Markdown(
-        #     """ 
-        #     #### Maxime Vacher-Materno       
-        #     #### Data Scientist 
-        #     """,
-        # className='mb-4'),
+        
     ]
 )
 
-column4 = dbc.Col(
+column2 = dbc.Col(
     [   
        # (
        #      html.Img(src='assets/lambdaLogo.png', style= {'width': '50%', 'display': 'inline-block'}, alt="Responsive image", className='mb-4')          
@@ -88,4 +35,4 @@ column4 = dbc.Col(
     ]
 )
 
-layout = dbc.Row([column3,column4])
+layout = dbc.Row([column1,column2])
