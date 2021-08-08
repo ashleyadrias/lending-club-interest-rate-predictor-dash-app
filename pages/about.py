@@ -23,7 +23,7 @@ column2 = dbc.Col(
         dcc.Markdown(
             """ 
             ### Ashley Adrias      
-            #### Data Scientist & Mechanical Engineer
+            #### Data Scientist & Engineer
             ##### Languages: Python, Javascript
             ##### Web Dev: HTML, Django, Dash, Flask
             ##### Database: SQL, RDS, Redshift
